@@ -45,6 +45,8 @@ slideshow-platform_dev/
 5. **图片支持**：支持在 Markdown 文件中插入图片，图片存放在 `images/` 目录中。
 6. **扩展功能**：支持 Mermaid 图表和 MathJax 数学公式渲染，代码高亮显示。
 
+![图片描述](./images/your-image.png)
+
 ## 安装与运行
 ### 安装依赖
 项目使用 Python 和 Flask，确保你已经安装 Python 3.x，然后运行以下命令安装依赖：
@@ -72,24 +74,7 @@ curl -X POST -F "file=@your_file.md" http://127.0.0.1:5001/upload/<keyword>
 ```
 其中 `<keyword>` 对应 `slides` 目录下的子目录名。
 
-### 使用图片
-1. 将图片文件放入 `images/` 目录
-2. 在 Markdown 文件中使用以下语法插入图片：
-```markdown
-![图片描述](./images/your-image.png)
-```
-3. 支持的图片格式：PNG、JPEG、GIF、SVG、WebP
 
-#### 图片使用示例
-```markdown
-# 幻灯片标题
-
-这是一张示例图片：
-
-![项目架构图](./images/show_ppt01.png)
-
-图片会自动适应幻灯片大小并保持比例。
-```
 
 ## 注意事项
 - 确保 `slides` 目录下的每个子目录都有 `list.json` 文件，用于记录该目录下的 Markdown 文件列表。
