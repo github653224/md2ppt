@@ -16,6 +16,8 @@
 slideshow-platform_dev/
 ├── app.py
 ├── favicon.ico
+├── images/                    # 图片存放目录
+│   └── README.md
 ├── slides/
 │   ├── go/
 │   ├── java/
@@ -40,7 +42,8 @@ slideshow-platform_dev/
 2. **主题切换**：在 logo 左侧有主题切换开关，可切换深色和浅色主题。
 3. **幻灯片导航**：提供上一页、下一页按钮和幻灯片计数器。
 4. **文件上传**：支持通过 `/upload/<path:keyword>` 接口上传 Markdown 文件。
-5. **扩展功能**：支持 Mermaid 图表和 MathJax 数学公式渲染，代码高亮显示。
+5. **图片支持**：支持在 Markdown 文件中插入图片，图片存放在 `images/` 目录中。
+6. **扩展功能**：支持 Mermaid 图表和 MathJax 数学公式渲染，代码高亮显示。
 
 ## 安装与运行
 ### 安装依赖
@@ -68,6 +71,25 @@ python app.py
 curl -X POST -F "file=@your_file.md" http://127.0.0.1:5001/upload/<keyword>
 ```
 其中 `<keyword>` 对应 `slides` 目录下的子目录名。
+
+### 使用图片
+1. 将图片文件放入 `images/` 目录
+2. 在 Markdown 文件中使用以下语法插入图片：
+```markdown
+![图片描述](./images/your-image.png)
+```
+3. 支持的图片格式：PNG、JPEG、GIF、SVG、WebP
+
+#### 图片使用示例
+```markdown
+# 幻灯片标题
+
+这是一张示例图片：
+
+![项目架构图](./images/show_ppt01.png)
+
+图片会自动适应幻灯片大小并保持比例。
+```
 
 ## 注意事项
 - 确保 `slides` 目录下的每个子目录都有 `list.json` 文件，用于记录该目录下的 Markdown 文件列表。

@@ -13,6 +13,11 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
+@app.route('/images/<path:filename>')
+def serve_image(filename):
+    """服务images目录中的图片文件"""
+    return send_from_directory(os.path.join(app.root_path, 'images'), filename)
+
 @app.route('/')
 @app.route('/slides')
 @app.route('/slides/<path:dir_name>')
