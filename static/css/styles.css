@@ -192,7 +192,7 @@ body:not(.dark) .sidebar li {
 .slideshow-container {
     width: 90%;
     max-width: 1200px;
-    height: 90vh;
+    height: 95vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -209,8 +209,9 @@ body:not(.dark) .sidebar li {
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     overflow-y: scroll;
-    max-height: calc(90vh - 80px);
+    max-height: calc(95vh - 80px);
     transition: all 0.5s ease;
+    /* margin-top: 10vh; */
 }
 
 body.dark .slide {
