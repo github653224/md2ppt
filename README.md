@@ -45,7 +45,8 @@ slideshow-platform_dev/
 5. **图片支持**：支持在 Markdown 文件中插入图片，图片存放在 `images/` 目录中。
 6. **扩展功能**：支持 Mermaid 图表和 MathJax 数学公式渲染，代码高亮显示。
 
-![图片描述](./images/your-image.png)
+![图片描述](./images/show_ppt01.png)
+
 
 ## 安装与运行
 ### 安装依赖
