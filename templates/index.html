@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- 移除可能导致 aria-hidden 警告的 body 属性 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="api-base-url" content="">
+    <title>Markdown 幻灯片播放平台</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+     <!-- 其他头部内容 -->
+     <link href="{{ url_for('static', filename='css/prism-tomorrow.min.css') }}" rel="stylesheet">
+     <script src="{{ url_for('static', filename='js/prism.min.js') }}"></script>
+     <script src="{{ url_for('static', filename='js/prism-python.min.js') }}"></script>
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.css" rel="stylesheet" />
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+     <script>
+         mermaid.initialize({
+             startOnLoad: false,
+             theme: 'default'
+         });
+     </script>
+     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/core-js-bundle@3.29.1/minified.min.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body data-theme="default" class="dark loaded" data-dir="{{ dir_name|default('') }}">
+    <div class="sidebar-toggle" onclick="toggleSidebar()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M3 6H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+    </div>
+    <div class="sidebar">
+        <ul id="slide-list"></ul>
+    </div>
+    <div class="content-wrapper">
+        <div class="logo-container">
+        <label class="theme-switch">
+            <input type="checkbox" id="theme-toggle">
+            <span class="slider round"></span>
+        </label>
+        <!-- 添加logo图片 -->
+         <!-- <img scr="http://wx.qlogo.cn/mmhead/Q3auHgzwzM7UwqDzGWOcShZnGn8A6l18zQib8RnDz4DvV8oQ3tJiaqIQ/0"></img> -->
+        <div class="logo">热爱技术的小牛</div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+            
+            // 初始化开关状态
+            themeToggle.checked = body.classList.contains('dark');
+            
+            themeToggle.addEventListener('change', () => {
+                if (themeToggle.checked) {
+                    body.classList.add('dark');
+                } else {
+                    body.classList.remove('dark');
+                }
+            });
+            try {
+                init();
+            } catch (error) {
+                console.error('init 函数执行出错:', error);
+            }
+        });
+    </script>
+    <div class="slideshow-container">
+        <div class="slide" id="slide-content">
+            <!-- 幻灯片内容将通过JavaScript动态加载 -->
+        </div>
+        
+        <div class="navigation">
+            <button id="prev-btn"><</button>
+            <span id="slide-counter">0/0</span>
+            <button id="next-btn">></button>
+        </div>
+    </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                init();
+            } catch (error) {
+                console.error('init 函数执行出错:', error);
+            }
+            // 生成目录列表
+            const slideList = document.getElementById('slide-list');
+            try {
+                console.log('开始请求幻灯片数据');
+                const dirName = document.body.getAttribute('data-dir');
+                const response = await fetch(`/slides-data/${dirName}`);
+                console.log('请求结果:', response);
+                if (!response.ok) {
+                    throw new Error('无法获取幻灯片列表，状态码: ' + response.status);
+                }
+                const data = await response.json();
+                console.log('解析后的 JSON 数据:', data);
+                data.list.slides.forEach((slide, index) => {
+                    const li = document.createElement('li');
+                    li.textContent = slide;
+                    li.addEventListener('click', () => {
+                        // 切换到对应幻灯片
+                        const index = data.list.slides.indexOf(slide);
+                        if (index !== -1) {
+                            showSlide(index);
+                        }
+                        console.log(`切换到 ${slide}`);
+                    });
+                    slideList.appendChild(li);
+                });
+            } catch (error) {
+                console.error('加载幻灯片列表失败:', error);
+            }
+        });
+    </script>
+</body>
+</html>
+<script>
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('hidden');
+}
+</script>
