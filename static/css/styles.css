@@ -75,6 +75,12 @@ body:not(.dark) {
     color: black;
 }
 
+.sidebar.show {
+    opacity: 1;
+    transform: translateX(0);
+    overflow: visible;
+}
+
 .sidebar.hidden {
     width: 0;
     padding: 0;
@@ -94,11 +100,12 @@ body:not(.dark) {
     left: 0px;
     top: calc(32% + 5px);
     max-height: 80vh;
-    opacity: 1;
+    opacity: 0;
     width: 200px;
     padding: 0;
-    overflow: visible;
-    transform: none;
+    overflow: hidden;
+    transform: translateX(-100%);
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .sidebar-header {
